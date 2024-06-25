@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body style="background-color: #212121">
+    <button id="fetch-btn">Fetch Data</button>
+  </body>
+  <script>
+    // get references
+    const fetchBtn = document.getElementById('fetch-btn')
+
+    const showData = (data)=>{
+      console.log(data);
+      // create a p
+      const follwers =document.createElement('p')
+      follwers.style.color = 'white'
+      follwers.innerText = `Followers: ${data.followers}`
+
+      // create a img
+      const avatar = document.createElement('img')
+      avatar.src = data.avatar_url
+      avatar.width = '100'
+      avatar.height = '100'
+      avatar.style.borderRadius = '50%'
+
+      // create a parent div
+      const box = document.createElement('div')
+      box.width = '500'
+      box.height = '500'
+      box.style.border = '1px solid red'
+      box.style.display = 'flex'
+      box.style.justifyContent = 'center'
+      box.style.alignItems = 'center'
+      
+
+      // append to box
+      box.appendChild(avatar)
+      box.appendChild(follwers)
+
+      //append to body
+      document.body.appendChild(box)
+      document.body.style.width='100vw'
+      document.body.style.height='100vh'
+    }
+
+    const fetchData = (callback) => {
+      const requestUrl = 'https://api.github.com/users/hiteshchoudhary'
+      const xhr = new XMLHttpRequest()
+      xhr.open('GET', requestUrl)
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          const res = JSON.parse(this.responseText)
+          callback(res)
+        }
+      }
+      xhr.send()
+    }
+
+    fetchBtn.addEventListener('click',()=>fetchData(showData))
+  </script>
+</html>
